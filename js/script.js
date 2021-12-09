@@ -118,7 +118,7 @@ class List {
 	addSomeListId(id) {
 		for (let i = 0; i < arguments.length; i++){
 			let itID = arguments[i];
-			itID = itID.slice(itID.indexOf(this.id + 1));
+			itID = itID.slice(itID.indexOf("=") + 1);
 			this.someListId[arguments[i]] = itID;
 			this.someListIdLength++;
 			
@@ -166,6 +166,7 @@ class List {
 		for (let id in this.someListId){
 			url += `id=${this.someListId[id]}&`;
 		}
+		url = url.slice(0, url.length - 1);
 		return url;
 	}
 }
@@ -235,6 +236,7 @@ if (localStorage.getItem("favoriteListId") != null) {
 	for (let key in parseListId) {
 		paramsPhoto.addSomeListId(key);
 	}
+	console.log(paramsPhoto.someListId);
 }
 
 /** 
@@ -584,10 +586,6 @@ function addList(url, parent, params, useListId = false) {
 	});
 }
 
-function addListFavorite(parent, params){
-
-}
-
 /**
  * @param {object} listData - загруженные данные.
  * @param {*} parent - элемент, куда добавляется список.
@@ -681,7 +679,7 @@ function createList(listData, parent, params, useListId) {
  *     удаляет из него блок с картинкой ожидания загрузки.
  *     Иначе, выводит блок с сообщением. 
  */
-function waitAllPromises(arr, parent, elem, useListId, someListIdLength) {
+function waitAllPromises(arr, parent, elem, useListId, LengthSomeListId) {
 
 	Promise.all(arr).then(function () {
 		const extraBlock = parent.querySelector(".extra-block");
@@ -693,7 +691,7 @@ function waitAllPromises(arr, parent, elem, useListId, someListIdLength) {
 		}
 		elem.classList.remove("_hidden");
 		if (useListId) {
-			if (someListIdLength === 0 &&
+			if (LengthSomeListId === 0 &&
 				(parent.classList.contains("tabs__favorite"))
 			) {
 				emptyFavoriteTabs();
