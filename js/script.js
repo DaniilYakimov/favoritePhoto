@@ -232,11 +232,9 @@ addList(urlUsers, tabsCatalog, paramsUser);
 
 if (localStorage.getItem("favoriteListId") != null) {
 	const parseListId = JSON.parse(localStorage.getItem("favoriteListId"));
-	console.log(parseListId);
 	for (let key in parseListId) {
 		paramsPhoto.addSomeListId(key);
 	}
-	console.log(paramsPhoto.someListId);
 }
 
 /** 
